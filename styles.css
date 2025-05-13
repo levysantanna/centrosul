@@ -1,0 +1,116 @@
+/* Configuração do plano de fundo com imagens */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        url('Pixel ComunaTec_RGB_1.png'), /* Vermelho - superior esquerda */
+        url('Pixel ComunaTec_RGB_3.png'); /* Preto - inferior direita */
+    background-position: 
+        top 5% left 8%, 
+        bottom 5% right 8%;
+    background-repeat: no-repeat;
+    background-size: 120%, 120%; /* Tamanho de 120% */
+    opacity: 0.08; /* Transparência das imagens de fundo */
+    z-index: -1;
+}
+
+/* Reset e estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff; /* Fundo branco */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Evita scroll */
+    position: relative;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo-container {
+    margin-bottom: 40px;
+}
+
+.logo {
+    max-width: 80%;
+    height: auto;
+    max-height: 50vh;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+}
+
+.cta-container {
+    margin-top: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #cc0000;
+    color: #ffffff;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    background-color: #990000;
+}
+
+/* Elementos de fundo (não mais necessários, substituídos pelo background-image) */
+.background-elements {
+    display: none;
+}
+
+.bg-element {
+    position: absolute;
+    opacity: 0.2;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .logo {
+        max-width: 90%;
+    }
+    
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 95%;
+    }
+    
+    .cta-button {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+}
