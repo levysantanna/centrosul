@@ -13,4 +13,4 @@ RUN mkdir -p static/uploads
 EXPOSE 5000
 
 # Serve com Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5001", "app:app"]
