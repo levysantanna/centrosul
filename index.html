@@ -13,7 +13,24 @@
             <img src="Logotipo principal tagline_ComunaTec_RGB_8.png" alt="ComunaTec Logo" class="logo">
         </div>
         <div class="cta-container">
-            <a href="https://forms.gle/hRSYJ1L2CaJXFxz38" class="cta-button">Junte-se a nós</a>
+              <form action="/enviar" method="POST" enctype="multipart/form-data">
+    <label>Nome:</label><br>
+    <input type="text" name="nome" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Telefone:</label><br>
+    <input type="text" name="telefone"><br><br>
+
+    <label>Mensagem:</label><br>
+    <textarea name="mensagem" rows="4"></textarea><br><br>
+
+    <label>Imagem:</label><br>
+    <input type="file" name="imagem" accept="image/*"><br><br>
+
+    <button type="submit">Junte-se a nós</button>
+  </form>
         </div>
     </div>
 </body>
