@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Cria pasta de uploads
 RUN mkdir -p static/uploads
 
-EXPOSE 5000
+EXPOSE 5001
 
 # Serve com Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5001", "app:app"]
