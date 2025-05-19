@@ -22,8 +22,8 @@ def init_db():
         """)
 
 @app.route('/')
-def formulario():
-    return render_template('form.html')
+def index():
+    return render_template('index.html')
 
 @app.route('/enviar', methods=['POST'])
 def enviar():
