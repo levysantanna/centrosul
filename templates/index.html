@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComunaTec - Junte-se a nós</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="Logotipo principal tagline_ComunaTec_RGB_8.png" alt="ComunaTec Logo" class="logo">
+        </div>
+        <div class="cta-container">
+              <form action="/enviar" method="POST" enctype="multipart/form-data">
+    <label>Nome:</label><br>
+    <input type="text" name="nome" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Telefone:</label><br>
+    <input type="text" name="telefone"><br><br>
+
+    <label>Mensagem:</label><br>
+    <textarea name="mensagem" rows="4"></textarea><br><br>
+
+    <label>Imagem:</label><br>
+    <input type="file" name="imagem" accept="image/*"><br><br>
+
+    <button type="submit">Junte-se a nós</button>
+  </form>
+        </div>
+    </div>
+</body>
+</html>
