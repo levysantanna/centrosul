@@ -1,0 +1,85 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Login Admin - ComunaTec{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        {% if url_for('static', filename='Logotipo principal tagline_ComunaTec_RGB_8.png') %}
+                            <img src="{{ url_for('static', filename='Logotipo principal tagline_ComunaTec_RGB_8.png') }}" 
+                                 alt="ComunaTec Logo" class="img-fluid mb-3" style="max-height: 80px;">
+                        {% endif %}
+                        <h4 class="text-muted">
+                            <i class="fas fa-user-shield me-2"></i>
+                            Área Administrativa
+                        </h4>
+                    </div>
+                    
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="fas fa-user me-1"></i>
+                                Usuário
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" 
+                                   required autocomplete="username" autofocus>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-1"></i>
+                                Senha
+                            </label>
+                            <input type="password" class="form-control" id="password" name="password" 
+                                   required autocomplete="current-password">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-admin">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Entrar
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Acesso restrito apenas para administradores
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar ao Site
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auto-focus no campo username e enter para submit -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus
+    document.getElementById('username').focus();
+    
+    // Permitir Enter no campo senha para submeter o form
+    document.getElementById('password').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('form').submit();
+        }
+    });
+});
+</script>
+{% endblock %} 

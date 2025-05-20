@@ -1,0 +1,240 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard Admin - ComunaTec{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-tachometer-alt me-2"></i>
+            Dashboard Administrativo
+        </h2>
+        <div class="text-muted">
+            <small>Total de registros: {{ total_records }}</small>
+        </div>
+    </div>
+
+    <!-- Barra de busca -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="search" 
+                           placeholder="Buscar por nome, email, cidade ou empresa..." 
+                           value="{{ search if search }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-admin w-100">
+                        <i class="fas fa-search me-1"></i>
+                        Buscar
+                    </button>
+                </div>
+                {% if search %}
+                <div class="col-12">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-times me-1"></i>
+                        Limpar Busca
+                    </a>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabela de respostas -->
+    {% if respostas %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome Completo</th>
+                    <th>Email</th>
+                    <th>WhatsApp</th>
+                    <th>Localização</th>
+                    <th>Tecnologia</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resposta in respostas %}
+                <tr>
+                    <td>{{ resposta[0] }}</td>
+                    <td>
+                        <strong>{{ resposta[1] }} {{ resposta[2] }}</strong>
+                        {% if resposta[7] %}<br><small class="text-muted">{{ resposta[7] }}</small>{% endif %}
+                    </td>
+                    <td>
+                        <a href="mailto:{{ resposta[3] }}" class="text-decoration-none">
+                            {{ resposta[3] }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="https://wa.me/55{{ resposta[4] }}" target="_blank" class="text-decoration-none">
+                            <i class="fab fa-whatsapp text-success me-1"></i>
+                            {{ resposta[4] }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if resposta[5] or resposta[6] %}
+                            {{ resposta[5] }}{% if resposta[5] and resposta[6] %}, {% endif %}{{ resposta[6] }}
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if resposta[9] %}
+                            <span class="badge bg-primary">{{ resposta[9] }}</span>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <small>{{ resposta[16][:19] if resposta[16] else '-' }}</small>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_resposta_detail', resposta_id=resposta[0]) }}" 
+                           class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    {% if total_pages > 1 %}
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center">
+            {% if has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin_dashboard', page=current_page-1, search=search) }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for page_num in range(1, total_pages + 1) %}
+                {% if page_num == current_page %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_num }}</span>
+                    </li>
+                {% elif page_num <= 3 or page_num > total_pages - 3 or (page_num >= current_page - 1 and page_num <= current_page + 1) %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin_dashboard', page=page_num, search=search) }}">
+                            {{ page_num }}
+                        </a>
+                    </li>
+                {% elif page_num == 4 and current_page > 6 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% elif page_num == total_pages - 3 and current_page < total_pages - 5 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin_dashboard', page=current_page+1, search=search) }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <!-- Estado vazio -->
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="fas fa-inbox text-muted" style="font-size: 4rem;"></i>
+        </div>
+        <h4 class="text-muted">
+            {% if search %}
+                Nenhum resultado encontrado
+            {% else %}
+                Nenhuma resposta encontrada
+            {% endif %}
+        </h4>
+        <p class="text-muted">
+            {% if search %}
+                Tente alterar os termos da busca.
+            {% else %}
+                Aguarde as primeiras submissões do formulário.
+            {% endif %}
+        </p>
+        {% if search %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>
+                Voltar
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Estatísticas rápidas -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-primary">
+                    <i class="fas fa-users"></i>
+                </h5>
+                <h3>{{ total_records }}</h3>
+                <p class="text-muted">Total de Cadastros</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">
+                    <i class="fas fa-calendar-day"></i>
+                </h5>
+                <h3 id="today-count">-</h3>
+                <p class="text-muted">Hoje</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-warning">
+                    <i class="fas fa-calendar-week"></i>
+                </h5>
+                <h3 id="week-count">-</h3>
+                <p class="text-muted">Esta Semana</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-info">
+                    <i class="fas fa-code"></i>
+                </h5>
+                <h3 id="tech-count">-</h3>
+                <p class="text-muted">Área Tech</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Carrega estatísticas básicas via AJAX (pode ser implementado posteriormente)
+document.addEventListener('DOMContentLoaded', function() {
+    // Por enquanto, coloca valores placeholder
+    document.getElementById('today-count').textContent = '0';
+    document.getElementById('week-count').textContent = '0';
+    document.getElementById('tech-count').textContent = '0';
+});
+</script>
+{% endblock %} 
