@@ -36,28 +36,64 @@ window.addEventListener('scroll', function() {
 const contactForm = document.getElementById('contact-form');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        // Get form values
         const nome = document.getElementById('nome').value.trim();
+        const sobrenome = document.getElementById('sobrenome').value.trim();
         const email = document.getElementById('email').value.trim();
-        const mensagem = document.getElementById('mensagem').value.trim();
+        const telefone = document.getElementById('telefone').value.trim();
+        const cidade = document.getElementById('cidade').value.trim();
+        const uf = document.getElementById('uf').value.trim();
         
-        if (nome === '' || email === '' || mensagem === '') {
-            alert('Por favor, preencha todos os campos do formulário.');
+        // Validate required fields
+        if (!nome || !sobrenome || !email || !telefone || !cidade || !uf) {
+            alert('Por favor, preencha todos os campos obrigatórios: nome, sobrenome, email, telefone, cidade e UF.');
             return;
         }
         
-        // Validação básica de email
+        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert('Por favor, insira um endereço de email válido.');
             return;
         }
         
-        // Aqui você adicionaria o código para enviar o formulário para o servidor
-        alert('Mensagem enviada com sucesso! Em breve entraremos em contato.');
-        contactForm.reset();
+        // Validate phone number (11 digits: DDD + number)
+        if (!/^\d{11}$/.test(telefone)) {
+            alert('Telefone deve conter 11 dígitos (DDD+telefone)');
+            return;
+        }
+        
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+        
+        try {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            
+            const formData = new FormData(this);
+            const response = await fetch('/enviar', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert('Resposta enviada com sucesso!');
+                this.reset();
+            } else {
+                alert(result.error || 'Erro ao enviar a resposta. Por favor, tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao enviar a resposta. Por favor, tente novamente.');
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+        }
     });
 }
 

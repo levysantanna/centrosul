@@ -3,61 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComunaTec - Junte-se a nós</title>
+    <title>ComunaTec - Junte-se a Nós</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Junte-se à ComunaTec e faça parte da revolução tecnológica!">
+    <meta name="theme-color" content="#e63946">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <div class="container py-5">
+<body class="bg-light">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="text-center mb-5">
+            <div class="col-lg-8">
+                <!-- Header -->
+                <header class="text-center mb-5 animate-fade-in">
                     <img src="{{ url_for('static', filename='Logotipo principal tagline_ComunaTec_RGB_8.png') }}" 
-                         alt="ComunaTec Logo" class="img-fluid logo">
-                </div>
+                         alt="ComunaTec Logo" class="logo">
+                    <div class="mt-4
+                    <h1 class="h3 fw-bold text-primary">Junte-se à Nossa Comunidade</h1>
+                    <p class="text-muted">Preencha o formulário abaixo para fazer parte da revolução tecnológica</p>
+                </header>
                 
-                <div class="card shadow-lg">
-                    <div class="card-body p-4">
-                        <form id="contact-form" action="/enviar" method="POST" enctype="multipart/form-data">
+                <!-- Form Card -->
+                <div class="card shadow-lg animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="card-body">
+                        <!-- Success Message (initially hidden) -->
+                        <div id="success-message" class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Mensagem enviada com sucesso! Entraremos em contato em breve.
+                        </div>
+                        
+                        <form id="contact-form" action="/enviar" method="POST" enctype="multipart/form-data" novalidate>
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="nome" class="form-label">Nome *</label>
-                                    <input type="text" class="form-control" id="nome" name="nome">
+                            <div class="section-heading">
+                                <h2>Informações Pessoais</h2>
+                                <p>Preencha seus dados básicos para começarmos</p>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nome" class="form-label">Nome *</label>
+                                        <input type="text" class="form-control" id="nome" name="nome" required 
+                                               placeholder="Seu nome">
+                                        <div class="invalid-feedback">Por favor, insira seu nome.</div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="sobrenome" class="form-label">Sobrenome *</label>
-                                    <input type="text" class="form-control" id="sobrenome" name="sobrenome">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sobrenome" class="form-label">Sobrenome *</label>
+                                        <input type="text" class="form-control" id="sobrenome" name="sobrenome" required
+                                               placeholder="Seu sobrenome">
+                                        <div class="invalid-feedback">Por favor, insira seu sobrenome.</div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="email" name="email">
+                            <div class="row g-4 mt-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input type="email" class="form-control" id="email" name="email" required
+                                                   placeholder="seu@email.com">
+                                        </div>
+                                        <div class="invalid-feedback">Por favor, insira um email válido.</div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="whatsapp" class="form-label">WhatsApp (com DDD) *</label>
-                                    <input type="tel" class="form-control" id="whatsapp" name="whatsapp" 
-                                           pattern="\d{11}" placeholder="11999999999" maxlength="11"
-                                           oninvalid="this.setCustomValidity('Por favor, insira o WhatsApp com DDD, ex: 11999999999')"
-                                           oninput="setCustomValidity('')">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="telefone" class="form-label">Telefone (com DDD) *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <input type="tel" class="form-control" id="telefone" name="telefone" required
+                                                   placeholder="(00) 00000-0000" pattern="\(\d{2}\)\s\d{5}-\d{4}"
+                                                   oninput="formatPhoneNumber(this)">
+                                        </div>
+                                        <div class="invalid-feedback">Por favor, insira um telefone válido com DDD. Ex: (11) 99999-9999</div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-8 mb-3">
                                     <label for="cidade" class="form-label">Cidade *</label>
-                                    <input type="text" class="form-control" id="cidade" name="cidade">
+                                    <input type="text" class="form-control" id="cidade" name="cidade" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="uf" class="form-label">UF *</label>
-                                    <select class="form-select" id="uf" name="uf">
+                                    <select class="form-select" id="uf" name="uf" required>
                                         <option value="">Selecione...</option>
                                         <option value="AC">AC</option>
                                         <option value="AL">AL</option>
@@ -90,56 +141,85 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="movimento" class="form-label">Faz parte de algum movimento? Qual?</label>
-                                <input type="text" class="form-control" id="movimento" name="movimento">
+                            <div class="section-heading mt-5">
+                                <h2>Informações Adicionais</h2>
+                                <p>Conte-nos mais sobre você</p>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="sindicato" class="form-label">Filiado a algum sindicato? Qual?</label>
-                                <input type="text" class="form-control" id="sindicato" name="sindicato">
+                            <div class="form-group mb-4">
+                                <label for="movimento" class="form-label">Faz parte de algum movimento social ou sindicato?</label>
+                                <input type="text" class="form-control" id="movimento" name="movimento"
+                                       placeholder="Ex: MTST, UNE, CUT...">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="area_tecnologia" class="form-label">Atua na área de tecnologia? Em qual área?</label>
-                                <input type="text" class="form-control" id="area_tecnologia" name="area_tecnologia">
+                            <div class="form-group mb-4">
+                                <label for="sindicato" class="form-label">Se sim, qual sindicato?</label>
+                                <input type="text" class="form-control" id="sindicato" name="sindicato"
+                                       placeholder="Nome do sindicato">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="empresa" class="form-label">Empresa</label>
-                                <input type="text" class="form-control" id="empresa" name="empresa">
+                            <div class="form-group mb-4">
+                                <label for="area_tecnologia" class="form-label">Qual área da tecnologia você tem interesse ou atua?</label>
+                                <select class="form-select" id="area_tecnologia" name="area_tecnologia">
+                                    <option value="" selected disabled>Selecione uma opção</option>
+                                    <option value="desenvolvimento">Desenvolvimento de Software</option>
+                                    <option value="dados">Ciência de Dados</option>
+                                    <option value="seguranca">Segurança da Informação</option>
+                                    <option value="redes">Redes e Infraestrutura</option>
+                                    <option value="ux">UX/UI Design</option>
+                                    <option value="devops">DevOps</option>
+                                    <option value="ia">Inteligência Artificial</option>
+                                    <option value="outra">Outra área</option>
+                                </select>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Estuda?</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="estuda" id="estuda_sim" value="sim">
-                                    <label class="form-check-label" for="estuda_sim">Sim</label>
+                            <div class="form-group mb-4">
+                                <label for="empresa" class="form-label">Empresa onde trabalha atualmente (opcional)</label>
+                                <input type="text" class="form-control" id="empresa" name="empresa"
+                                       placeholder="Nome da empresa">
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <p class="form-label mb-2">Você estuda atualmente? *</p>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="estuda" id="estuda_sim" value="sim" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="estuda_sim">
+                                        <i class="fas fa-graduation-cap me-2"></i>Sim
+                                    </label>
+                                    <input type="radio" class="btn-check" name="estuda" id="estuda_nao" value="nao" autocomplete="off" checked>
+                                    <label class="btn btn-outline-secondary" for="estuda_nao">
+                                        <i class="fas fa-times-circle me-2"></i>Não
+                                    </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="estuda" id="estuda_nao" value="nao" checked>
-                                    <label class="form-check-label" for="estuda_nao">Não</label>
+                            </div>
+
+                            <div id="estudo_fields" class="row g-3 mb-4" style="display: none;">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="curso" class="form-label">Curso</label>
+                                        <input type="text" class="form-control" id="curso" name="curso"
+                                               placeholder="Nome do curso">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="instituicao" class="form-label">Instituição</label>
+                                        <input type="text" class="form-control" id="instituicao" name="instituicao"
+                                               placeholder="Nome da instituição">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row" id="estudo_fields" style="display: none;">
-                                <div class="col-md-6 mb-3">
-                                    <label for="curso" class="form-label">Curso</label>
-                                    <input type="text" class="form-control" id="curso" name="curso">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="instituicao" class="form-label">Instituição</label>
-                                    <input type="text" class="form-control" id="instituicao" name="instituicao">
-                                </div>
+                            <div class="form-group mb-4">
+                                <label for="mensagem" class="form-label">Mensagem (opcional)</label>
+                                <textarea class="form-control" id="mensagem" name="mensagem" rows="4"
+                                          placeholder="Alguma informação adicional que gostaria de compartilhar?"></textarea>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="mensagem" class="form-label">Mensagem</label>
-                                <textarea class="form-control" id="mensagem" name="mensagem" rows="4"></textarea>
-                            </div>
-
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">Junte-se a nós</button>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar Mensagem
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -150,7 +230,59 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- Custom JS -->
+    <script>
+        // Phone number formatting
+        function formatPhoneNumber(input) {
+            // Remove all non-digit characters
+            let value = input.value.replace(/\D/g, '');
+            
+            // Format as (00) 00000-0000
+            if (value.length > 2) {
+                value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}${value.length > 7 ? '-' + value.substring(7, 11) : ''}`;
+            }
+            
+            // Update the input value
+            input.value = value;
+        }
+        
+        // Toggle study fields based on radio button selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const studyRadios = document.querySelectorAll('input[name="estuda"]');
+            const studyFields = document.getElementById('estudo_fields');
+            
+            studyRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    studyFields.style.display = this.value === 'sim' ? 'flex' : 'none';
+                    
+                    // Toggle required attribute on study fields
+                    const curso = document.getElementById('curso');
+                    const instituicao = document.getElementById('instituicao');
+                    
+                    if (this.value === 'sim') {
+                        curso.required = true;
+                        instituicao.required = true;
+                    } else {
+                        curso.required = false;
+                        instituicao.required = false;
+                    }
+                });
+            });
+            
+            // Form validation
+            const form = document.getElementById('contact-form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            }
+        });
+    </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
