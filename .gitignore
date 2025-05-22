@@ -37,6 +37,7 @@ ENV/
 
 # Logs
 *.log
+app.log
 logs/
 
 # IDE specific files
