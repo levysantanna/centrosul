@@ -119,10 +119,10 @@ def create_app():
             
             # Verifica se já existe um usuário admin, se não cria um padrão
             cursor = conn.cursor()
-            cursor.execute("SELECT COUNT(*) FROM admin_users")
-            admin_count = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM admin_users WHERE username = 'admin'")
+            admin_exists = cursor.fetchone()[0]
             
-            if admin_count == 0:
+            if admin_exists == 0:
                 # Cria usuário admin padrão: admin / admin123
                 # IMPORTANTE: Altere essa senha em produção!
                 default_password = "admin123"
@@ -134,6 +134,8 @@ def create_app():
                 conn.commit()
                 logger.info("Usuário admin padrão criado. Username: admin, Password: admin123")
                 logger.warning("IMPORTANTE: Altere a senha padrão em produção!")
+            else:
+                logger.info("Usuário admin já existe no banco de dados")
 
     @app.after_request
     def add_security_headers(response):
