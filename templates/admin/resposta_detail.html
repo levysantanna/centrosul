@@ -1,0 +1,284 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Detalhes da Resposta #{{ resposta[0] }} - Admin ComunaTec{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-user me-2"></i>
+            Detalhes da Resposta #{{ resposta[0] }}
+        </h2>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
+            Voltar ao Dashboard
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Informações Pessoais -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-circle me-2"></i>
+                        Informações Pessoais
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="fw-bold">Nome:</td>
+                            <td>{{ resposta[1] }} {{ resposta[2] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Email:</td>
+                            <td>
+                                <a href="mailto:{{ resposta[3] }}" class="text-decoration-none">
+                                    {{ resposta[3] }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">WhatsApp:</td>
+                            <td>
+                                <a href="https://wa.me/55{{ resposta[5] }}" target="_blank" class="text-decoration-none">
+                                    <i class="fab fa-whatsapp text-success me-1"></i>
+                                    {{ resposta[5] }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Telefone:</td>
+                            <td>{{ resposta[4] if resposta[4] else '-' }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Localização -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Localização
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="fw-bold">Cidade:</td>
+                            <td>{{ resposta[6] if resposta[6] else '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">UF:</td>
+                            <td>{{ resposta[7] if resposta[7] else '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">IP:</td>
+                            <td>
+                                <code>{{ resposta[17] if resposta[17] else '-' }}</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Data/Hora:</td>
+                            <td>
+                                {% if resposta[18] %}
+                                    <i class="fas fa-calendar me-1"></i>
+                                    {{ resposta[18] }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movimentos e Sindicatos -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users me-2"></i>
+                        Movimentos e Sindicatos
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="fw-bold">Movimento:</td>
+                            <td>{{ resposta[8] if resposta[8] else '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Sindicato:</td>
+                            <td>{{ resposta[9] if resposta[9] else '-' }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações Profissionais -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i>
+                        Informações Profissionais
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="fw-bold">Área de Tecnologia:</td>
+                            <td>
+                                {% if resposta[10] %}
+                                    <span class="badge bg-primary">{{ resposta[10] }}</span>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Empresa:</td>
+                            <td>{{ resposta[11] if resposta[11] else '-' }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações Educacionais -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        Informações Educacionais
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold">Estuda:</td>
+                                    <td>
+                                        {% if resposta[12] %}
+                                            <span class="badge bg-success">Sim</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Não</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        {% if resposta[12] %}
+                        <div class="col-md-4">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold">Curso:</td>
+                                    <td>{{ resposta[13] if resposta[13] else '-' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold">Instituição:</td>
+                                    <td>{{ resposta[14] if resposta[14] else '-' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensagem -->
+        {% if resposta[15] %}
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-comment me-2"></i>
+                        Mensagem
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="p-3 bg-light rounded">
+                        {{ resposta[15] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Imagem (se houver) -->
+        {% if resposta[16] %}
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-image me-2"></i>
+                        Arquivo Anexado
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='uploads/' + resposta[16].split('/')[-1]) }}" 
+                         alt="Imagem anexada" class="img-fluid rounded" style="max-height: 400px;">
+                    <div class="mt-2">
+                        <a href="{{ url_for('static', filename='uploads/' + resposta[16].split('/')[-1]) }}" 
+                           target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>
+                            Abrir em nova aba
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Ações -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="fas fa-tools me-2"></i>
+                Ações
+            </h5>
+            <div class="btn-group" role="group">
+                <a href="mailto:{{ resposta[3] }}" class="btn btn-outline-primary">
+                    <i class="fas fa-envelope me-2"></i>
+                    Enviar Email
+                </a>
+                <a href="https://wa.me/55{{ resposta[5] }}" target="_blank" class="btn btn-outline-success">
+                    <i class="fab fa-whatsapp me-2"></i>
+                    WhatsApp
+                </a>
+                <button class="btn btn-outline-secondary" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>
+                    Imprimir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media print {
+    .btn, .card-header, .navbar, nav {
+        display: none !important;
+    }
+    .card {
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+}
+</style>
+{% endblock %} 
