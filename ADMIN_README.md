@@ -28,9 +28,9 @@ python app.py
 ### 2. Acessar a Área Administrativa
 - URL: `http://localhost:5001/admin/login`
 - **Usuário padrão:** `admin`
-- **Senha padrão:** `admin123`
+- **Senha padrão:** `Trotsky1905`
 
-⚠️ **IMPORTANTE:** Altere a senha padrão em produção!
+⚠️ **IMPORTANTE:** A senha foi alterada de `admin123` para `Trotsky1905` por segurança!
 
 ### 3. Navegação no Sistema
 - **Dashboard:** Visualizar todas as respostas do formulário
