@@ -368,7 +368,8 @@ def create_app():
 
     # Inicializa o banco de dados quando a aplicação é criada
     try:
-        init_db()
+        with app.app_context():
+            init_db()
     except Exception as e:
         logger.error(f"Erro ao inicializar banco de dados: {str(e)}")
         # Continua mesmo com erro no banco para não quebrar a aplicação
