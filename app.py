@@ -3,7 +3,7 @@ import sqlite3, os
 from werkzeug.utils import secure_filename
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_wtf.csrf import CSRFProtect
+# from flask_wtf.csrf import CSRFProtect
 import re
 from datetime import datetime
 import logging
@@ -31,7 +31,7 @@ def create_app():
     logger = logging.getLogger(__name__)
 
     # Configuração de segurança
-    csrf = CSRFProtect(app)
+    # csrf = CSRFProtect(app)
     
     # Configuração do Rate Limiter com suporte a Redis
     limiter_storage_uri = os.environ.get('REDIS_URL', 'memory://')
@@ -154,10 +154,10 @@ def create_app():
     @limiter.limit("5 per minute")
     def enviar():
         try:
-            # Validação de CSRF
-            if not csrf.validate():
-                logger.warning(f"CSRF validation failed from IP: {request.remote_addr}")
-                return jsonify({"error": "Erro de validação CSRF"}), 403
+            # Validação de CSRF removida
+            # if not csrf.validate():
+            #     logger.warning(f"CSRF validation failed from IP: {request.remote_addr}")
+            #     return jsonify({"error": "Erro de validação CSRF"}), 403
 
             # Sanitização e validação dos inputs
             nome = sanitize_input(request.form.get('nome', ''))
