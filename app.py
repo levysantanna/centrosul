@@ -87,12 +87,11 @@ def create_app():
                     sobrenome TEXT NOT NULL,
                     email TEXT NOT NULL,
                     telefone TEXT,
-                    whatsapp TEXT,
                     cidade TEXT,
                     uf TEXT,
                     movimento TEXT,
                     sindicato TEXT,
-                    area_tecnologia TEXT,
+                    categoria TEXT,
                     empresa TEXT,
                     estuda BOOLEAN,
                     curso TEXT,
@@ -164,29 +163,31 @@ def create_app():
             sobrenome = sanitize_input(request.form.get('sobrenome', ''))
             email = sanitize_input(request.form.get('email', ''))
             telefone = sanitize_input(request.form.get('telefone', ''))
-            whatsapp = sanitize_input(request.form.get('whatsapp', ''))
+            telefone = sanitize_input(request.form.get('telefone', ''))
             cidade = sanitize_input(request.form.get('cidade', ''))
             uf = sanitize_input(request.form.get('uf', ''))
             movimento = sanitize_input(request.form.get('movimento', ''))
             sindicato = sanitize_input(request.form.get('sindicato', ''))
-            area_tecnologia = sanitize_input(request.form.get('area_tecnologia', ''))
+            categoria = sanitize_input(request.form.get('categoria', ''))
             empresa = sanitize_input(request.form.get('empresa', ''))
             estuda = request.form.get('estuda') == 'sim'
             curso = sanitize_input(request.form.get('curso', ''))
             instituicao = sanitize_input(request.form.get('instituicao', ''))
             mensagem = sanitize_input(request.form.get('mensagem', ''))
 
-            if not nome or not sobrenome or not email or not whatsapp:
-                logger.warning(f"Campos obrigatórios ausentes: nome, sobrenome, email, whatsapp. IP: {request.remote_addr}")
-                return jsonify({"error": "Preencha todos os campos obrigatórios: nome, sobrenome, email e WhatsApp."}), 400
+            if not nome or not sobrenome or not email or not telefone:
+                logger.warning(f"Campos obrigatórios ausentes: nome, sobrenome, email, telefone. IP: {request.remote_addr}")
+                return jsonify({"error": "Preencha todos os campos obrigatórios: nome, sobrenome, email e telefone."}), 400
 
             if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                 logger.warning(f"Email inválido: {email} IP: {request.remote_addr}")
                 return jsonify({"error": "Email inválido"}), 400
 
-            if not whatsapp.isdigit() or len(whatsapp) != 11:
-                logger.warning(f"WhatsApp inválido: {whatsapp} IP: {request.remote_addr}")
-                return jsonify({"error": "WhatsApp deve conter 11 dígitos (DDD+telefone)"}), 400
+            # Validação do telefone (formato brasileiro)
+            telefone_limpo = re.sub(r'[^\d]', '', telefone)
+            if len(telefone_limpo) < 10 or len(telefone_limpo) > 11:
+                logger.warning(f"Telefone inválido: {telefone} IP: {request.remote_addr}")
+                return jsonify({"error": "Telefone deve conter DDD + número (10 ou 11 dígitos)"}), 400
 
             imagem = request.files.get('imagem')
             imagem_path = ''
@@ -204,13 +205,13 @@ def create_app():
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO respostas (
-                        nome, sobrenome, email, telefone, whatsapp, cidade, uf,
-                        movimento, sindicato, area_tecnologia, empresa,
+                        nome, sobrenome, email, telefone, cidade, uf,
+                        movimento, sindicato, categoria, empresa,
                         estuda, curso, instituicao, mensagem, imagem, ip_address
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """, (
-                    nome, sobrenome, email, telefone, whatsapp, cidade, uf,
-                    movimento, sindicato, area_tecnologia, empresa,
+                    nome, sobrenome, email, telefone, cidade, uf,
+                    movimento, sindicato, categoria, empresa,
                     estuda, curso, instituicao, mensagem, imagem_path, request.remote_addr
                 ))
                 conn.commit()
@@ -290,8 +291,8 @@ def create_app():
                 
                 # Query base
                 base_query = """
-                    SELECT id, nome, sobrenome, email, whatsapp, cidade, uf, 
-                           movimento, sindicato, area_tecnologia, empresa, 
+                    SELECT id, nome, sobrenome, email, telefone, cidade, uf, 
+                           movimento, sindicato, categoria, empresa, 
                            estuda, curso, instituicao, mensagem, ip_address, created_at
                     FROM respostas
                 """
