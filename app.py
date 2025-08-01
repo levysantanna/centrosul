@@ -10,6 +10,8 @@ import logging
 import bcrypt
 from functools import wraps
 
+FILE = "db/database.db"
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave-secreta-padrao-mudar-em-producao')
@@ -78,7 +80,7 @@ def create_app():
         return decorated_function
 
     def init_db():
-        with sqlite3.connect("db/database.db") as conn:
+        with sqlite3.connect(FILE) as conn:
             # Tabela de respostas do formulário
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS respostas (
@@ -201,7 +203,7 @@ def create_app():
                 imagem_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 imagem.save(imagem_path)
 
-            with sqlite3.connect("database.db") as conn:
+            with sqlite3.connect(FILE) as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO respostas (
@@ -235,7 +237,7 @@ def create_app():
                 return render_template('admin/login.html')
             
             try:
-                with sqlite3.connect("database.db") as conn:
+                with sqlite3.connect(FILE) as conn:
                     cursor = conn.cursor()
                     cursor.execute(
                         "SELECT id, password_hash, is_active FROM admin_users WHERE username = ?",
@@ -286,7 +288,7 @@ def create_app():
             
             search = request.args.get('search', '').strip()
             
-            with sqlite3.connect("database.db") as conn:
+            with sqlite3.connect(FILE) as conn:
                 cursor = conn.cursor()
                 
                 # Query base
@@ -350,7 +352,7 @@ def create_app():
     @admin_required
     def admin_resposta_detail(resposta_id):
         try:
-            with sqlite3.connect("database.db") as conn:
+            with sqlite3.connect(FILE) as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
                     SELECT * FROM respostas WHERE id = ?
